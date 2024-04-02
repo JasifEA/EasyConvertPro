@@ -51,7 +51,7 @@ Access the application in your web browser at ** http://localhost:3000 **
 3. Click the "Convert" button to start the conversion process.
 4. Download the converted file once the conversion is complete.
 
-**Contributing: **
+**Contributing:**
 Contributions are welcome! If you find any bugs or have suggestions for improvements, please create an issue or submit a pull request.
 
 **License:**
