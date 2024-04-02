@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+    @{
+        ViewData["Title"] = "Image Compressor";
+    }
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <style>
+
+       
+
+        .file-upload {
+            background-color: #ffffff;
+            width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .file-upload-btn {
+            width: 100%;
+            margin: 0;
+            color: #fff;
+            background: #5256e3;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #0a10ad;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+            .file-upload-btn:hover {
+                background: #2f316b;
+                color: #fff;
+                transition: all .2s ease;
+                cursor: pointer;
+            }
+
+            .file-upload-btn:active {
+                border: 0;
+                transition: all .2s ease;
+            }
+
+        .file-upload-content {
+            display: none;
+            text-align: center;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            outline: none;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .image-upload-wrap {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 2px dashed #1FB264;
+            position: relative;
+        }
+
+            .image-dropping,
+            .image-upload-wrap:hover {
+                background-color: #1FB264;
+                border: 2px dashed #ffffff;
+            }
+
+        .image-title-wrap {
+            padding: 0 15px 15px 15px;
+            color: #222;
+        }
+
+        .drag-text {
+            text-align: center;
+        }
+
+            .drag-text h3 {
+                font-weight: 100;
+                text-transform: uppercase;
+                color: #15824B;
+                padding: 60px 0;
+            }
+
+        .file-upload-image {
+            max-height: 200px;
+            max-width: 200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .remove-image {
+            width: 200px;
+            margin: 0;
+            color: #fff;
+            background: #cd4535;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #b02818;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+            .remove-image:hover {
+                background: #c13b2a;
+                color: #ffffff;
+                transition: all .2s ease;
+                cursor: pointer;
+            }
+
+            .remove-image:active {
+                border: 0;
+                transition: all .2s ease;
+            }
+    </style>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.image-upload-wrap').hide();
+
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+
+                    $('.image-title').html(input.files[0].name);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                removeUpload();
+            }
+        }
+
+        function removeUpload() {
+            $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+            $('.file-upload-content').hide();
+            $('.image-upload-wrap').show();
+        }
+        $('.image-upload-wrap').bind('dragover', function () {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function () {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+
+    </script>
+</head>
+<body>
+    <form enctype="multipart/form-data" method="post" asp-action="UploadImage" asp-controller="Image">
+        @{
+            Html.AntiForgeryToken();
+            Html.ValidationSummary(true, "", new { @class = "text-danger" });
+        }
+    <div class="inline-flex items-center justify-center w-full">
+        <hr class="w-100 h-1 my-8 bg-gray-500 border-0 rounded dark:bg-gray-700">
+        <div class="absolute px-4 -translate-x-1/2 bg-white left-3/4 dark:bg-gray-900 text-xl fw-bolder">
+            Image <span style="background-color:#5256e3;color:white;" class="rounded-3 py-1">&nbsp; Compressor &nbsp;</span>
+        </div>
+    </div>
+    
+    <div class="file-upload">
+        
+
+        <div class="image-upload-wrap">
+            <input class="file-upload-input" type='file' name="file" id="file" onchange="readURL(this);" accept="image/*" />
+            <div class="drag-text">
+
+                <h3> Drag and drop a file or select Image</h3>
+            </div>
+        </div>
+        <div class="file-upload-content">
+            <img class="file-upload-image" src="#" alt="your image" />
+            <div class="image-title-wrap">
+                <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+            </div>
+        </div>
+
+        <button class="btn btn-outline-success w-100" type="submit" >Compress & Download Image</button>
+    </div>
+    </form>
+</body>
+</html>

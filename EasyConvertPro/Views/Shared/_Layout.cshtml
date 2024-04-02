@@ -7,20 +7,135 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EasyConvertPro.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.2/tailwind.min.css">
+   @*  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.2/tailwind.min.css"> *@
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+   @*  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" /> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var loadingBar = document.getElementById("progressBar");
+            loadingBar.style.display = "none"; // Hide the loading bar initially
 
+            // Function to show loading bar
+            function showLoadingBar() {
+                loadingBar.style.display = "block";
+            }
+
+            // Function to hide loading bar
+            function hideLoadingBar() {
+                loadingBar.style.display = "none";
+            }
+
+            // Show the loading bar when a page is being loaded
+            window.addEventListener("beforeunload", showLoadingBar);
+
+            // Hide the loading bar when the page is fully loaded
+            window.addEventListener("load", hideLoadingBar);
+
+            // Show the loading bar when an AJAX request starts
+            $(document).ajaxStart(showLoadingBar);
+
+            // Hide the loading bar when an AJAX request completes
+            $(document).ajaxStop(hideLoadingBar);
+
+            // Show loading bar when form submission starts
+            $("form").submit(function () {
+                showLoadingBar();
+            });
+
+            // Hide loading bar after returning the file
+            var hideLoading = @Html.Raw(Json.Serialize(ViewBag.HideLoading));
+            if (hideLoading) {
+                hideLoadingBar();
+            }
+        });
+
+    </script>
+    <style>
+        .modals {
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .centers {
+            z-index: 1000;
+            width: 130px;
+            background-color: White;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .centerimg {
+            margin: auto;
+        }
+
+    </style>
 </head>
 <body class="overflow-x-hidden antialiased" style="font-family:'Satoshi Variable'">
     <header >
+        
 
 
         <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="images/Firefly-removebg-preview.png" class="w-auto h-12 text-indigo-600 fill-current" alt="Flowbite Logo" />
+            @if (ViewData["isHome"] != null)
+            {
+                <div class="absolute flex-col items-center justify-content-end hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
+
+                <svg class="absolute top-0 hidden w-screen max-w-3xl -mt-64 -ml-12 lg:block" style="margin-top:-5%; margin-right:-20%;"
+                     viewBox="0 0 818 815" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <defs>
+                        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="c">
+                            <stop stop-color="#E614F2" offset="0%" />
+                            <stop stop-color="#FC3832" offset="100%" />
+                        </linearGradient>
+                        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="f">
+                            <stop stop-color="#657DE9" offset="0%" />
+                            <stop stop-color="#1C0FD7" offset="100%" />
+                        </linearGradient>
+                        <filter x="-4.7%" y="-3.3%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox"
+                                id="a">
+                            <feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1" />
+                            <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1" />
+                            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0" in="shadowBlurOuter1" />
+                        </filter>
+                        <filter x="-4.7%" y="-3.3%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox"
+                                id="d">
+                            <feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1" />
+                            <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1" />
+                            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0" in="shadowBlurOuter1" />
+                        </filter>
+                        <path d="M160.52 108.243h497.445c17.83 0 24.296 1.856 30.814 5.342 6.519 3.486 11.635 8.602 15.12 15.12 3.487 6.52 5.344 12.985 5.344 30.815v497.445c0 17.83-1.857 24.296-5.343 30.814-3.486 6.519-8.602 11.635-15.12 15.12-6.52 3.487-12.985 5.344-30.815 5.344H160.52c-17.83 0-24.296-1.857-30.814-5.343-6.519-3.486-11.635-8.602-15.12-15.12-3.487-6.52-5.343-12.985-5.343-30.815V159.52c0-17.83 1.856-24.296 5.342-30.814 3.486-6.519 8.602-11.635 15.12-15.12 6.52-3.487 12.985-5.343 30.815-5.343z"
+                              id="b" />
+                        <path d="M159.107 107.829H656.55c17.83 0 24.296 1.856 30.815 5.342 6.518 3.487 11.634 8.602 15.12 15.12 3.486 6.52 5.343 12.985 5.343 30.816V656.55c0 17.83-1.857 24.296-5.343 30.815-3.486 6.518-8.602 11.634-15.12 15.12-6.519 3.486-12.985 5.343-30.815 5.343H159.107c-17.83 0-24.297-1.857-30.815-5.343-6.519-3.486-11.634-8.602-15.12-15.12-3.487-6.519-5.343-12.985-5.343-30.815V159.107c0-17.83 1.856-24.297 5.342-30.815 3.487-6.519 8.602-11.634 15.12-15.12 6.52-3.487 12.985-5.343 30.816-5.343z"
+                              id="e" />
+                    </defs>
+                    <g fill="none" fill-rule="evenodd" opacity=".9">
+                        <g transform="rotate(65 416.452 409.167)">
+                            <use fill="#000" filter="url(#a)" xlink:href="#b" />
+                            <use fill="url(#c)" xlink:href="#b" />
+                        </g>
+                        <g transform="rotate(29 421.929 414.496)">
+                            <use fill="#000" filter="url(#d)" xlink:href="#e" />
+                            <use fill="url(#f)" xlink:href="#e" />
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            }
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 position-relative">
+                <a asp-controller="Home" asp-action="Index" class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <img src="~/images/Firefly-removebg-preview.png" class="w-auto h-12 text-indigo-600 fill-current" alt="Flowbite Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white" style="color:#5256e3;">EasyConvert <span style="background-color:#5256e3;color:white;" class="rounded-3"> Pro. </span></span>
                 </a>
                 <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
@@ -45,29 +160,39 @@
                             <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
                                     <li>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        <a asp-controller="Image" asp-action="ImageCompressor" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             Image Compressor
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        <a asp-controller="Image" asp-action="ImageConverter" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             Image Converter
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                                        <a asp-controller="Image" asp-action="ImageUpscale" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            Upscale Images
+                                        </a>
                                     </li>
                                 </ul>
-                                <div class="py-1">
+                               @*  <div class="py-1">
                                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                                </div>
+                                </div> *@
                             </div>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
+                            <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent 
+                                               md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 
+                                               dark:hover:text-white md:dark:hover:bg-transparent">
+                                Videos <p class="textAwesome" style="font-size:xx-small;">Coming Soon</p>
+                            </a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
+                            <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent 
+                                               md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 
+                                               dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                                Office <p class="textAwesome" style="font-size:xx-small;">Coming Soon</p>
+                            </a>
                         </li>
                         <li>
                             <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
@@ -77,129 +202,8 @@
             </div>
         </nav>
 
-        @* <nav id="nav" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="flex items-center justify-content-between h-full max-w-6xl px-8 sm:justify-between xl:px-0">
-                <a href="/" class="navbar-brand relative flex items-center inline-block font-black leading-none">
-                    <img src="images/Firefly-removebg-preview.png" class="w-auto h-12 text-indigo-600 fill-current" />
-                    <span class="text-xl text-gray-800">EasyConvert Pro<span class="text-pink-500">.</span></span>
-                </a>
-            </div>
-            <div @@click.away="flyoutMenuOpen = false" x-data="{ flyoutMenuOpen: false }" class="position-relative">
-                <button type="button" x-state:on="Item active" x-state:off="Item inactive" @@click="flyoutMenuOpen = !flyoutMenuOpen" :class="{ 'text-gray-900': flyoutMenuOpen, 'text-gray-500': !flyoutMenuOpen }" class="group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150 text-gray-900">
-                    <span class="ml-0 mr-0 font-bold duration-100 md:ml-12 transition-color" style="color:#555ae4">Images</span>
-                    <div class="inline-block align-middle" style="margin-left: 0px;">
-                        <svg x-state:on="Item active" x-state:off="Item inactive" class="inline-block align-middle h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 text-gray-600" x-bind:class="{ 'text-gray-600': flyoutMenuOpen, 'text-gray-400': !flyoutMenuOpen }" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                </button>
-
-                <div x-description="'Images' flyout menu, show/hide based on flyout menu state." 
-                     x-show="flyoutMenuOpen" x-transition:enter="transition ease-out duration-200" 
-                    
-                     class="position-absolute">
-                    <div class="rounded-lg shadow-lg">
-                        <div class="rounded-lg shadow-xs overflow-hidden">
-                            <div class="z-50 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                                <a href="#" class="-m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
-                                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                    </svg>
-                                    <div class="space-y-1">
-                                        <p class="text-base leading-6 font-medium text-gray-900" style="width: 141px;">
-                                            Image Compressor
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="-m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
-                                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
-                                    </svg>
-                                    <div class="space-y-1">
-                                        <p class="text-base leading-6 font-medium text-gray-900">
-                                            Image Converter
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="-m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
-                                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                    </svg>
-                                    <div class="space-y-1">
-                                        <p class="text-base leading-6 font-medium text-gray-900">
-                                            Security
-                                        </p>
-                                        
-                                    </div>
-                                </a>
-                               
-                            </div>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div @@click.away="flyoutMenuOpen = false" x-data="{ flyoutMenuOpen: false }" class="position-relative">
-                <button type="button" x-state:on="Item active" x-state:off="Item inactive" 
-                        @@click="flyoutMenuOpen = !flyoutMenuOpen" :class="{ 'text-gray-900': flyoutMenuOpen, 'text-gray-500': !flyoutMenuOpen }" 
-                        class="group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none 
-                               focus:text-gray-900 transition ease-in-out duration-150 text-gray-900">
-                    <span class="ml-0 mr-0 font-bold duration-100 md:ml-12 transition-color" style="color:#555ae4">Videos</span>
-                    <div class="inline-block align-middle" style="margin-left: 0px;">
-                        <svg x-state:on="Item active" x-state:off="Item inactive" class="inline-block align-middle h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 text-gray-600" x-bind:class="{ 'text-gray-600': flyoutMenuOpen, 'text-gray-400': !flyoutMenuOpen }" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                </button>
-                <div class="absolute top-0 right-0 mt-1 mr-1">
-                    <img src="images/coming-soon.png" class="w-6" />
-                </div>
-                <div x-description="'Images' flyout menu, show/hide based on flyout menu state."
-                     x-show="flyoutMenuOpen" x-transition:enter="transition ease-out duration-200"
-                     class="position-absolute">
-                    <div class="rounded-lg shadow-lg">
-                        <div class="rounded-lg shadow-xs overflow-hidden">
-                            <div class="z-50 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                                <a href="#" class="-m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
-                                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                    </svg>
-                                    <div class="space-y-1">
-                                        <p class="text-base leading-6 font-medium text-gray-900" style="width: 141px;">
-                                            Video Compressor
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="-m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
-                                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
-                                    </svg>
-                                    <div class="space-y-1">
-                                        <p class="text-base leading-6 font-medium text-gray-900">
-                                            Video Converter
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="-m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
-                                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                    </svg>
-                                    <div class="space-y-1">
-                                        <p class="text-base leading-6 font-medium text-gray-900">
-                                            Coming soon..!
-                                        </p>
-
-                                    </div>
-                                </a>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
- *@
+      
+ 
         
       @*   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -220,9 +224,27 @@
                 </div>
             </div>
         </nav> *@
+
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 px-3">
+           
+            @if (ViewData["MainMenu"] != null)
+            {
+                <div class="inline-flex items-center justify-center w-full">
+                        <hr class="w-100 h-1 my-8 bg-gray-500 border-0 rounded dark:bg-gray-700">
+                    <div class="absolute px-4 -translate-x-1/2 bg-white left-3/4 dark:bg-gray-900 text-xl fw-bolder">
+                        @ViewData["MainMenu"] <span style="background-color:#5256e3;color:white;" class="rounded-3 py-1">&nbsp; @ViewData["MainSubMenu"] &nbsp;</span>
+                    </div>
+                </div>
+            }
+            <div id="progressBar" class="hidden">
+                <div class="modals">
+                    <div class="centers">
+                        <img src="~/images/loading.gif" class="centerimg" />
+                    </div>
+                </div>
+            </div>
             @RenderBody()
         </main>
     </div>

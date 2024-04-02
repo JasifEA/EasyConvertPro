@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    @model ImageFormatModel; 
+    @{
+        ViewData["Title"] = "Image Converter";
+        ViewData["MainMenu"] = "Image";
+        ViewData["MainSubMenu"] = "Converter";
+    }
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.image-upload-wrap').hide();
+
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+
+                    const fileName = input.files[0].name;
+
+                    $('.image-title').html(fileName);
+                    // if (input.files[0].length > 0) {
+                    const fileExtension = fileName.split('.').pop();
+                        $('#FromImgExtension').val(fileExtension);
+                    // }
+                };
+
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                removeUpload();
+            }
+        }
+
+        function removeUpload() {
+            $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+            $('.file-upload-content').hide();
+            $('.image-upload-wrap').show();
+        }
+        $('.image-upload-wrap').bind('dragover', function () {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function () {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+
+        // function showLoadingBar(form) {
+        //     document.getElementById('progressBar').classList.remove('hidden');
+        // }
+
+        // function hideLoadingBar(form) {
+        //     document.getElementById('progressBar').classList.add('hidden');
+        // }
+
+        function validateForm(form) {
+                var fileInput = document.getElementById('file');
+                var ddlImgValue = document.getElementById('Id');
+                if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "File Missing!",
+                        footer: '<a href="#">Please select any image for converting.</a>'
+                    });
+                    return false; 
+                }
+            if (!ddlImgValue || ddlImgValue.value == -1) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Image Format Missing!",
+                    footer: '<a href="#">Please select any format for converting.</a>'
+                });
+                return false;
+            }
+            
+            // showLoadingBar(form);
+            return true; // Return true to allow form submission
+        }
+
+        // Alternatively, you can add event listener to the button
+        // const element = document.getElementById("convertButton");
+        // if (element) {
+        //     element.addEventListener('click', function () {
+        //         var form = document.getElementById('frmImageConvert'); // Replace 'yourFormId' with the actual ID of your form
+        //         showLoadingBar(form);
+        //     });
+        // }
+
+    </script>
+  @*   <style>
+        .modals {
+            position: fixed; 
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); 
+            display: flex; 
+            justify-content: center;
+            align-items: center; 
+        }
+        .centers {
+            z-index: 1000;
+            width: 130px;
+            background-color: White;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .centerimg {
+            margin: auto; 
+        }
+
+    </style> *@
+</head>
+<body>
+
+  
+    
+   
+
+    <form id="frmImageConvert" enctype="multipart/form-data" method="post" asp-action="ImageConverter" asp-controller="Image" onsubmit="return validateForm()" data-loading-element-id="progressBar">
+        @{
+            Html.AntiForgeryToken();
+            Html.ValidationSummary(true, "", new { @class = "text-danger" });
+        }
+       
+       
+        <div class="file-upload mt-5">
+
+            @* <div id="progressBar" class="hidden">
+            <div class="modals">
+                <div class="centers">
+                    <img src="~/images/loading.gif" class="centerimg" />
+                </div>
+            </div>
+            </div> *@
+
+            <div class="image-upload-wrap">
+                <input class="file-upload-input" type='file' name="file" id="file" onchange="readURL(this);" accept="image/*" />
+                <div class="drag-text">
+
+                    <h3> Drag and drop a file or select Image</h3>
+                </div>
+            </div>
+            <div class="file-upload-content w-100 h-100">
+                <img class="file-upload-image" src="#" alt="your image" style="height: 240px;width: 270px;" />
+                <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                </div>
+            </div>
+            <div class="flex flex-row justify-content-between align-items-center gap-4">
+                @* <div class="flex flex-column justify-content-center align-items-center"> *@
+                
+                <p>Convert: </p><input type="text" asp-for="FromImgExtension" readonly class="form-control fw-bolder text-center" />
+               
+                <p>To: </p><select asp-for="Id" class="form-control fw-bolder" asp-items="ViewBag.imgFormats"></select>
+               
+                <button class="btn btn-outline-danger w-100" type="submit" id="convertButton">Convert Image</button>
+                @* </div> *@
+            </div>
+            
+
+            
+        </div>
+       
+    </form>
+    
+</body>
+</html>

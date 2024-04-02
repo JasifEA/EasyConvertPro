@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    @{
+        ViewData["Title"] = "Image Compressor";
+        ViewData["MainMenu"] = "Image";
+        ViewData["MainSubMenu"]= "Compressor";
+    }
+    
+
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.image-upload-wrap').hide();
+
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+
+                    $('.image-title').html(input.files[0].name);
+                    $('txtFileName').val(input.files[0].name);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                removeUpload();
+            }
+        }
+
+        function removeUpload() {
+            $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+            $('.file-upload-content').hide();
+            $('.image-upload-wrap').show();
+        }
+        $('.image-upload-wrap').bind('dragover', function () {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function () {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+
+        function validateForm() {
+            var fileInput = document.getElementById('file');
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "File Missing!",
+                    footer: '<a href="#">Please select any image for compressing.</a>'
+                });
+                return false; // Prevent form submission
+            }
+            return true; // Proceed with form submission
+        }
+    </script>
+</head>
+<body>
+    <form enctype="multipart/form-data" method="post" asp-action="ImageCompressor" asp-controller="Image" onsubmit="return validateForm()">
+        @{
+            Html.AntiForgeryToken();
+            Html.ValidationSummary(true, "", new { @class = "text-danger" });
+        }
+        <input type="hidden" name="txtFileName" id="txtFileName"/>
+        <div class="file-upload">
+
+
+            <div class="image-upload-wrap">
+                <input class="file-upload-input" type='file' name="file" id="file" onchange="readURL(this);" accept="image/*" />
+                <div class="drag-text">
+
+                    <h3> Drag and drop a file or select Image</h3>
+                </div>
+            </div>
+            <div class="file-upload-content w-100 h-100" >
+                <img class="file-upload-image" src="#" alt="your image" style="height: 240px;width: 270px;" />
+                <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                </div>
+            </div>
+
+            <button class="btn btn-outline-success w-100" type="submit">Compress & Download Image</button>
+        </div>
+    </form>
+</body>
+</html>
